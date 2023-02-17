@@ -1,38 +1,52 @@
-// Import TensorFlow.js and any other necessary dependencies
-import * as tf from "@tensorflow/tfjs";
-import * as tfnlp from "@tensorflow-models/universal-sentence-encoder";
+const messageList = document.querySelector('.message-list');
+const inputField = document.querySelector('.chat-input input[type="text"]');
+const sendButton = document.querySelector('.chat-input button');
 
-// Load the Universal Sentence Encoder model for NLP
-const nlpModel = await tfnlp.load();
+const net = new brain.recurrent.LSTM();
 
-// Create a list of example inputs and outputs to train the AI bot
-const trainingData = [
-  { input: "Hello", output: "Hi there!" },
-  { input: "How are you?", output: "I'm doing well, thanks for asking." },
-  { input: "What's the weather like?", output: "I'm not sure, I'm just a chatbot!" },
-  { input: "Tell me a joke", output: "Why did the chicken cross the road? To get to the other side!" },
-  { input: "What's your favorite color?", output: "I don't really have a favorite color." },
-];
+// Train the network on sample data
+net.train([
+  { input: 'Hello', output: 'Hi there!' },
+  { input: 'How are you?', output: "I'm doing well, thank you." },
+  { input: 'What is your name?', output: "My name is AI Bot." },
+  { input: 'What can you do?', output: "I can assist you with anything you need!" },
+  { input: 'Goodbye', output: 'See you later!' }
+]);
 
-// Convert the training data to tensors for machine learning
-const tensorData = trainingData.map((item) => {
-  const input = nlpModel.embed(item.input);
-  const output = nlpModel.embed(item.output);
-  return { input, output };
+// Respond to user input
+function respondToUserInput(userInput) {
+  const output = net.run(userInput);
+  return output;
+}
+
+// Handle user input and bot response
+function handleInput() {
+  const userInput = inputField.value;
+  const botResponse = respondToUserInput(userInput);
+  const message = document.createElement('li');
+  message.classList.add('message', 'user');
+  message.innerHTML = `
+    <div class="message-text">
+      ${userInput}
+    </div>
+  `;
+  messageList.appendChild(message);
+  inputField.value = '';
+  const botMessage = document.createElement('li');
+  botMessage.classList.add('message', 'bot');
+  botMessage.innerHTML = `
+    <div class="message-text">
+      ${botResponse}
+    </div>
+  `;
+  messageList.appendChild(botMessage);
+  messageList.scrollTop = messageList.scrollHeight;
+}
+
+// Event listeners
+sendButton.addEventListener('click', handleInput);
+inputField.addEventListener('keyup', (event) => {
+  if (event.key === 'Enter') {
+    handleInput();
+  }
 });
-
-// Train the AI bot using the training data and a neural network algorithm
-const model = tf.sequential();
-model.add(tf.layers.dense({ inputShape: [512], units: 128, activation: "relu" }));
-model.add(tf.layers.dense({ units: 128, activation: "relu" }));
-model.add(tf.layers.dense({ units: 512, activation: "sigmoid" }));
-model.compile({ loss: "meanSquaredError", optimizer: "adam" });
-await model.fit(tensorData.map((item) => item.input), tensorData.map((item) => item.output), { epochs: 100 });
-
-// Use the trained AI bot to respond to user input
-const userInput = "Hello, can you help me with something?";
-const userTensor = nlpModel.embed(userInput);
-const responseTensor = model.predict(userTensor);
-const responseArray = await responseTensor.array();
-const responseText = nlpModel.decode(responseArray);
-console.log(responseText); // Output: Hi there!

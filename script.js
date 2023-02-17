@@ -8,7 +8,7 @@ const net = new brain.recurrent.LSTM();
 net.train([
   { input: 'Hello', output: 'Hi there!' },
   { input: 'How are you?', output: "I'm doing well, thank you." },
-  { input: 'What is your name?', output: "My name is AI Bot." },
+  { input: 'What is your name?', output: "My name is AI." },
   { input: 'What can you do?', output: "I can assist you with anything you need!" },
   { input: 'Goodbye', output: 'See you later!' }
 ]);

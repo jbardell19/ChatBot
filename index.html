@@ -1,41 +1,31 @@
 <!DOCTYPE html>
 <html>
-<head>
-	<title>Chat Bot</title>
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/themes/material_blue.css">
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flat-ui@2.3.0/dist/css/flat-ui.css">
-	<link rel="stylesheet" href="style.css">
-</head>
-<body>
-	<div class="container">
-		<h1>Chat Bot</h1>
-		<div id="chat-window">
-			<div class="message-bot">
-				<div class="message-content">
-					<p>Hello! How can I assist you today?</p>
-				</div>
-			</div>
-			<div class="message-user">
-				<div class="message-content">
-					<p>Hi, can you help me with my order status?</p>
-				</div>
-			</div>
-			<div class="message-bot">
-				<div class="message-content">
-					<p>Of course! Please provide me with your order number.</p>
-				</div>
-			</div>
-		</div>
-		<form id="chat-form">
-			<input type="text" id="message-input" placeholder="Type your message here">
-			<button type="submit"><i class="fui-chat"></i></button>
-		</form>
-	</div>
-
-	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-	<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-	<script src="https://cdn.jsdelivr.net/npm/flat-ui@2.3.0/dist/js/flat-ui.js"></script>
-	<script src="script.js"></script>
-</body>
+  <head>
+    <meta charset="UTF-8">
+    <title>AI Bot</title>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/flat-ui@2.3.0/dist/css/flat-ui.min.css">
+    <link rel="stylesheet" type="text/css" href="style.css">
+  </head>
+  <body>
+    <div class="chat-window">
+      <div class="chat-header">
+        <h1>AI Bot</h1>
+      </div>
+      <div class="chat-body">
+        <ul class="message-list">
+          <li class="message bot">
+            <div class="message-text">
+              Hi there! I'm the AI Bot. How can I help you today?
+            </div>
+          </li>
+        </ul>
+      </div>
+      <div class="chat-input">
+        <input type="text" placeholder="Type your message here...">
+        <button>Send</button>
+      </div>
+    </div>
+    <script src="https://unpkg.com/brain.js"></script>
+    <script src="script.js"></script>
+  </body>
 </html>
